@@ -1,0 +1,20 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "docker-compose up node-front",
+    "start-nodemon": "nodemon ./index.js"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "~1.18.2",
+    "commons-node": "git://github.com/galioy/commons-node.git#master",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "multichain-node": "git://github.com/galioy/multichain-node.git#patch-1",
+    "nodemon": "^1.17.3",
+    "repeat": "0.0.6"
+  }
+}

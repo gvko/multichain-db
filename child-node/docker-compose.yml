@@ -1,0 +1,54 @@
+version: '2'
+services:
+  child1:
+    image: multichain:latest
+    expose:
+      - 4000
+      - 4001
+    tty: true
+    # volumes:
+      # - '.:/multichain'
+    container_name: child1
+    networks:
+      - default
+
+  child2:
+    image: multichain:latest
+    expose:
+      - 4000
+      - 4001
+    tty: true
+    # volumes:
+      # - '.:/multichain'
+    container_name: child2
+    networks:
+      - default
+
+  child3:
+    image: multichain:latest
+    expose:
+      - 4000
+      - 4001
+    tty: true
+    # volumes:
+      # - '.:/multichain'
+    container_name: child3
+    networks:
+      - default
+
+  child4:
+    image: multichain:latest
+    expose:
+      - 4000
+      - 4001
+    tty: true
+    # volumes:
+      # - '.:/multichain'
+    container_name: child4
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: multichain-network

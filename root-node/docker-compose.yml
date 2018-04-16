@@ -1,0 +1,19 @@
+version: '2'
+services:
+  root:
+    image: root-node:latest
+    expose:
+      - 4000
+      - 4001
+    tty: true
+    # volumes:
+      # - '.:/multichain'
+    container_name: root
+    networks:
+      - default
+
+
+networks:
+  default:
+    external:
+      name: multichain-network
