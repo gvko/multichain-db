@@ -26,7 +26,7 @@ router.get('/list-streams', function (req, res, next) {
 });
 
 router.get('/list-stream-items', function (req, res, next) {
-  return multichain.listStreamItemsPromise({ stream: 'test', count: 999 })
+  return multichain.listStreamItemsPromise({ stream: 'test', count: 9999 })
     .then((data) => {
       res.json({ count: data.length, data })
     })
@@ -55,6 +55,17 @@ router.post('/publish', function (req, res, next) {
       stream: 'test', key, data
     });
   };
+
+  // const promises = [];
+  // for (let i = 0; i < 1500; i++) {
+  //   console.log(`${key}_${i}`);
+  //   promises.push(multichain.publishPromise({ stream: 'test', key: `${key}_${i}`, data }));
+  // }
+  // console.time('publish');
+  // return Promise.all(promises)
+  //   .then((data) => res.json({ time: console.timeEnd('publish'), data }))
+  //   .catch((err) => console.error(err));
+
   // return repeat(publish)
   //   .every('500', 'milliseconds')
   //   .for('10', 'sec')
