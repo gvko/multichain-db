@@ -30,20 +30,5 @@ node_modules
 .idea
 .DS_Store
 
-# VS Code IDE
-.vscode/
-
-# Istanbul output
-app/.nyc_output/
-
-# TypeScript related
-app/src/**/*.d.ts
-app/src/**/*.js
-app/src/**/*.map
-!app/src/declarations/*.d.ts
-
 # Others
-sql/prod-db-dump.sql
-app/src/services/uploads/files/
 app/package-lock.json
-app/translations
