@@ -1,7 +1,7 @@
 version: '2'
 services:
-  child1:
-    image: child-node:auto
+  node1:
+    image: multichain-node:latest
     expose:
       - 4000
       - 4001
@@ -14,12 +14,12 @@ services:
       - NODE_RPC_PORT=4001
       - RPC_PASSWORD=asdf1234
       - RPC_USERNAME=multichainrpc
-    container_name: child1
+    container_name: node1
     networks:
       - default
 
-  child2:
-    image: child-node:auto
+  node2:
+    image: multichain-node:latest
     expose:
       - 4000
       - 4001
@@ -32,12 +32,12 @@ services:
       - NODE_RPC_PORT=4001
       - RPC_PASSWORD=asdf1234
       - RPC_USERNAME=multichainrpc
-    container_name: child2
+    container_name: node2
     networks:
       - default
 
-  child3:
-    image: child-node:auto
+  node3:
+    image: multichain-node:latest
     expose:
       - 4000
       - 4001
@@ -50,12 +50,12 @@ services:
       - NODE_RPC_PORT=4001
       - RPC_PASSWORD=asdf1234
       - RPC_USERNAME=multichainrpc
-    container_name: child3
+    container_name: node3
     networks:
       - default
 
-  child4:
-    image: child-node:auto
+  node4:
+    image: multichain-node:latest
     expose:
       - 4000
       - 4001
@@ -68,27 +68,11 @@ services:
       - NODE_RPC_PORT=4001
       - RPC_PASSWORD=asdf1234
       - RPC_USERNAME=multichainrpc
-    container_name: child4
+    container_name: node4
     networks:
       - default
 
-  child5:
-    image: child-node:auto
-    expose:
-      - 4000
-      - 4001
-    tty: true
-    environment:
-      - BLOCKCHAIN_NAME=esmiley
-      - PARENT_NODE_HOST=172.20.0.2
-      - PARENT_NODE_PORT=4000
-      - NODE_PORT=4000
-      - NODE_RPC_PORT=4001
-      - RPC_PASSWORD=asdf1234
-      - RPC_USERNAME=multichainrpc
-    container_name: child5
-    networks:
-      - default
+
 
 networks:
   default:
