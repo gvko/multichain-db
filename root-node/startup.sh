@@ -4,7 +4,7 @@ CURRENT_NODE_ADDRESS=""
 
 function connect_to_existing_blockchain() {
   echo
-  echo "*** Connecting to existing blockchain $BLOCKCHAIN_NAME at $PARENT_NODE_HOST:$PARENT_NODE_PORT"
+  echo "*** Connecting to existing blockchain '$BLOCKCHAIN_NAME' at $PARENT_NODE_HOST:$PARENT_NODE_PORT"
 
   CURRENT_NODE_ADDRESS=$(multichaind esmiley@$PARENT_NODE_HOST:$PARENT_NODE_PORT | grep 'connect,send,receive' | sed -e 's/.*grant \(.*\) connect.*/\1/')
 }
@@ -27,7 +27,7 @@ function start_blockchain_foreground(){
   echo "*** Starting blockchain node (FOREground process)..."
 
   # do NOT use `-daemon`, because we want the process to be running on foreground, so that the Docker container also runs
-  multichaind $BLOCKCHAIN_NAME -rpcallowip=0.0.0.0/0 -rpcpassword=$RPC_PASSWORD
+  multichaind $BLOCKCHAIN_NAME -rpcallowip=0.0.0.0/0
 
   #TODO: filter out the IP from the response of this command and assign it to an env var, so the Node.js app can connect to it
 }
@@ -36,8 +36,7 @@ function start_blockchain_background(){
   echo
   echo "*** Starting blockchain node (BACKground process)..."
 
-  # do NOT use `-daemon`, because we want the process to be running on foreground, so that the Docker container also runs
-  multichaind $BLOCKCHAIN_NAME -rpcallowip=0.0.0.0/0 -rpcpassword=$RPC_PASSWORD -daemon
+  multichaind $BLOCKCHAIN_NAME -rpcallowip=0.0.0.0/0 -daemon
 
   #TODO: filter out the IP from the response of this command and assign it to an env var, so the Node.js app can connect to it
 }
@@ -93,6 +92,7 @@ start_blockchain_foreground || {
     start_blockchain_background
     sleep 2
     stop_blockchain
+    sleep 2
     update_rpc_credentials
     start_blockchain_foreground
   else
