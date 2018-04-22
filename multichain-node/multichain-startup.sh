@@ -83,7 +83,7 @@ function grant_permissions_to_current_node(){
 # --> wait 2 seconds for it to start and then stop it
 # --> Update the RPC credentials
 # --> Start the node in the foreground
-start_blockchain_foreground || {
+start_blockchain_background || {
 
   connect_to_existing_blockchain
 
@@ -94,10 +94,10 @@ start_blockchain_foreground || {
     stop_blockchain
     sleep 2
     update_rpc_credentials
-    start_blockchain_foreground
+    start_blockchain_background
   else
     grant_permissions_to_current_node
     update_rpc_credentials
-    start_blockchain_foreground
+    start_blockchain_background
   fi
 }
