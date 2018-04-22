@@ -3,14 +3,13 @@
 const express = require('express');
 const router = express.Router();
 const bluebird = require('bluebird');
-const repeat = require('repeat');
 
 const Multichain = require('multichain-node');
 const multichain = bluebird.promisifyAll(Multichain({
   user: 'multichainrpc',
   pass: 'asdf1234',
-  host: process.env.MULTICHAIN_HOST,
-  port: 4001
+  host: process.env.NODE_HOST_IP,
+  port: process.env.NODE_PORT_RPC
 }), { suffix: 'Promise' });
 
 router.get('/get-info', function (req, res, next) {

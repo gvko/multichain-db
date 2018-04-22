@@ -4,4 +4,4 @@ WORKDIR /app
 
 ADD app /app
 
-#CMD ["sh", "-c", "./startup.sh"]
+CMD ["sh", "-c", "./startup.sh"]

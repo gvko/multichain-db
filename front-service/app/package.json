@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "docker-compose up node-front",
+    "start": "node ./index.js",
     "start-nodemon": "nodemon ./index.js"
   },
   "dependencies": {

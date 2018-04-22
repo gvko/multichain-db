@@ -7,7 +7,7 @@ services:
     tty: true
     volumes:
       - './app:/app'
-    command: 'npm run start-nodemon'
+#    command: 'npm run start-nodemon'
     expose:
       - 4000
       - 4001
@@ -17,41 +17,61 @@ services:
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
-      - NODE_RPC_PORT=4001
+      - NODE_PORT_RPC=4001
       - RPC_PASSWORD=asdf1234
       - RPC_USERNAME=multichainrpc
-      - MULTICHAIN_HOST=172.20.0.2
     container_name: bc-node1
     networks:
       - default
 
-  node-front-1:
-    build: .
+  bc-node2:
+    image: multichain-node-and-app:latest
     ports:
       - '9011:3000'
     tty: true
     volumes:
       - './app:/app'
-    command: 'npm run start-nodemon'
+#    command: 'npm run start-nodemon'
+    expose:
+      - 4000
+      - 4001
+    tty: true
     environment:
-      - MULTICHAIN_HOST=172.20.0.3
-    container_name: node-front-multichain-1
+      - BLOCKCHAIN_NAME=esmiley
+      - PARENT_NODE_HOST=172.20.0.2
+      - PARENT_NODE_PORT=4000
+      - NODE_PORT=4000
+      - NODE_PORT_RPC=4001
+      - RPC_PASSWORD=asdf1234
+      - RPC_USERNAME=multichainrpc
+    container_name: bc-node2
     networks:
       - default
 
-  node-front-2:
-    build: .
+  bc-node3:
+    image: multichain-node-and-app:latest
     ports:
       - '9012:3000'
     tty: true
     volumes:
       - './app:/app'
-    command: 'npm run start-nodemon'
+#    command: 'npm run start-nodemon'
+    expose:
+      - 4000
+      - 4001
+    tty: true
     environment:
-      - MULTICHAIN_HOST=172.20.0.4
-    container_name: node-front-multichain-2
+      - BLOCKCHAIN_NAME=esmiley
+      - PARENT_NODE_HOST=172.20.0.2
+      - PARENT_NODE_PORT=4000
+      - NODE_PORT=4000
+      - NODE_PORT_RPC=4001
+      - RPC_PASSWORD=asdf1234
+      - RPC_USERNAME=multichainrpc
+    container_name: bc-node3
     networks:
       - default
+
 
 networks:
   default:
