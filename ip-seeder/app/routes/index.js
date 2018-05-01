@@ -2,8 +2,9 @@
 
 const express = require('express');
 const router = express.Router();
+const ping = require('ping');
 
-const ipList = [];
+let ipList = [];
 
 
 router.get('/get-node-ip', (req, res) => {
@@ -18,14 +19,28 @@ router.get('/get-node-ip', (req, res) => {
 
 router.post('/publish-ip', (req, res) => {
   ipList.push(req.body.ip);
-  console.log(`*** Pushed '${req.body.ip} to the list of IPs'`);
+  console.log(`*** Pushed '${req.body.ip}' to the list of IPs`);
 
   return res.sendStatus(200);
 });
 
 router.post('/check-ip', (req, res) => {
   const ipToCheck = req.body.ip;
-  //TODO: ping for the given IP and delete it if ping not responding
+
+  console.log(`*** Pinging '${ipToCheck}' to verify it is alive...`);
+
+  return ping.promise.probe(ipToCheck, { min_reply: 2 })
+    .then((pingResponse) => {
+      if (!pingResponse.alive) {
+        console.log(`*** IP '${ipToCheck}' not responding. Remove from list...`);
+        ipList.splice(ipList.indexOf(ipToCheck), 1);
+
+        return res.status(200).json(pingResponse.alive);
+      }
+
+      console.log(`*** '${ipToCheck}' is alive`);
+      return res.status(200).json(pingResponse.alive);
+    });
 });
 
 router.get('/get-all-ip', (req, res) => {
