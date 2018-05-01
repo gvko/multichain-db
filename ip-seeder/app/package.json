@@ -1,18 +1,16 @@
 {
-  "name": "multichain-node-front-service",
+  "name": "ip-seeder",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "docker-compose up",
+    "start": "docker-compose up ip-seeder",
     "start-nodemon": "nodemon ./index.js"
   },
   "dependencies": {
-    "bluebird": "^3.5.1",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
-    "express": "~4.15.5",
-    "multichain-node": "git://github.com/galioy/multichain-node.git#patch-1"
+    "express": "~4.15.5"
   },
   "devDependencies": {
     "nodemon": "^1.17.3"

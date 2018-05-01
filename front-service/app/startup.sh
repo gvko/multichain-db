@@ -1,3 +1,3 @@
 #!/bin/bash
 
-source ./multichain-startup.sh && npm start
+source ./multichain-startup.sh && node ./index.js

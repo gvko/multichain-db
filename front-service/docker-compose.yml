@@ -14,7 +14,7 @@ services:
     tty: true
     environment:
       - BLOCKCHAIN_NAME=esmiley
-      - PARENT_NODE_HOST=172.20.0.2
+#      - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
       - NODE_PORT_RPC=4001
@@ -38,7 +38,7 @@ services:
     tty: true
     environment:
       - BLOCKCHAIN_NAME=esmiley
-      - PARENT_NODE_HOST=172.20.0.2
+#      - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
       - NODE_PORT_RPC=4001
@@ -62,7 +62,7 @@ services:
     tty: true
     environment:
       - BLOCKCHAIN_NAME=esmiley
-      - PARENT_NODE_HOST=172.20.0.2
+#      - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
       - NODE_PORT_RPC=4001
