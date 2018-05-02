@@ -12,7 +12,7 @@ const IpService = require('../services/IpService.js');
  *
  * @return  {string}  Eg. '172.20.0.2' or 'NO-IP' if list of IPs is empty
  */
-router.get('/get-node-ip', (req, res) => {
+router.get('/get', (req, res) => {
   if (IpService.ipList.length > 0) {
     console.log(`*** Returning an IP: ${IpService.ipList[0]}`);
     return res.status(200).send(IpService.ipList[0]);
@@ -30,7 +30,7 @@ router.get('/get-node-ip', (req, res) => {
  *
  * @return  {string}  OK
  */
-router.post('/publish-ip', (req, res) => {
+router.post('/publish', (req, res) => {
   IpService.ipList.push(req.body.ip);
   console.log(`*** Pushed '${req.body.ip}' to the list of IPs`);
 
@@ -46,7 +46,7 @@ router.post('/publish-ip', (req, res) => {
  *
  * @return  {boolean} true/false
  */
-router.get('/check-ip', (req, res) => {
+router.get('/check', (req, res) => {
   const ipToCheck = req.query.ip;
 
   console.log(`*** Pinging '${ipToCheck}' to verify it is alive...`);
@@ -64,7 +64,7 @@ router.get('/check-ip', (req, res) => {
  *
  * @return  {array} Eg. ['172.20.0.2', '172.20.0.4', '172.20.0.5', '172.20.0.1', ...]
  */
-router.get('/get-all-ip', (req, res) => {
+router.get('/all', (req, res) => {
   console.log(`*** Returning all IPs...`);
 
   return res.status(200).json(IpService.ipList);
