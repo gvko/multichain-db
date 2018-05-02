@@ -19,13 +19,19 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
 const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-console.log(`*** Starting server on port ${port}...`);
+if (!process.env.LAUNCH_SERVICE || process.env.LAUNCH_SERVICE !== 'true') {
+  console.log(`\n*** LAUNCH_SERVICE: ${process.env.LAUNCH_SERVICE}`);
+  console.log('*** LAUNCH_SERVICE env var is not "true". Probably the multichain node was not started properly. Exiting...');
+
+  process.exit(0);
+}
+
+console.log(`\n*** Starting server on port ${port}...`);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
@@ -89,5 +95,5 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 
-  console.log(`*** Started server on port ${addr.port}`);
+  console.log(`\n*** Started server on port ${addr.port}`);
 }
