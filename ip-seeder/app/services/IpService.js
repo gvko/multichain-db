@@ -26,9 +26,31 @@ function pingHost(ip) {
     });
 }
 
+/**
+ * Gets and returns the first IP from the list of IPs.
+ *
+ * Check if the IP's host is alive before returning the IP.
+ *
+ * @return {Promise<string>}  An IP, eg. '172.20.0.2' if the host is alive, 'NO-IP' otherwise
+ */
+function getIpFromList() {
+  if (!ipList.length > 0) {
+    console.log('*** No IPs to return. IP list is empty.');
+    return Promise.resolve('NO-IP');
+  }
+
+  const ip = ipList[0];
+
+  return pingHost(ip)
+    .then((pingResponse) => {
+      return pingResponse ? Promise.resolve(ip) : getIpFromList();
+    });
+}
+
 module.exports = {
   ipList,
-  pingHost
+  pingHost,
+  getIpFromList
 };
 
 

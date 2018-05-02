@@ -13,13 +13,13 @@ const IpService = require('../services/IpService.js');
  * @return  {string}  Eg. '172.20.0.2' or 'NO-IP' if list of IPs is empty
  */
 router.get('/get', (req, res) => {
-  if (IpService.ipList.length > 0) {
-    console.log(`*** Returning an IP: ${IpService.ipList[0]}`);
-    return res.status(200).send(IpService.ipList[0]);
-  } else {
-    console.log('*** No IPs to return. IP list is empty.');
-    return res.status(400).send('NO-IP')
-  }
+  return IpService.getIpFromList()
+    .then((ip) => {
+      console.log(`*** Returning an IP: ${ip}`);
+      ip === 'NO-IP' ? res.status(400) : res.status(200);
+
+      return res.send(ip);
+    });
 });
 
 /**
