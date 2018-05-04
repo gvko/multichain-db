@@ -31,9 +31,7 @@ router.get('/get', (req, res) => {
  * @return  {string}  OK
  */
 router.post('/publish', (req, res) => {
-  IpService.ipList.push(req.body.ip);
-  console.log(`*** Pushed '${req.body.ip}' to the list of IPs`);
-
+  IpService.storeIp(req.body.ip);
   return res.sendStatus(200);
 });
 

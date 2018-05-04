@@ -47,10 +47,25 @@ function getIpFromList() {
     });
 }
 
+/**
+ * Add the given IP to the list of IPs. If already exists, just skip w/o adding it.
+ *
+ * @param {string}  ip  The IP to add
+ */
+function storeIp(ip) {
+  if(ipList.indexOf(ip) > 0){
+    console.log(`*** IP '${ip}' is already on list of IPs. Skipping...`);
+  } else {
+    ipList.push(ip);
+    console.log(`*** Pushed '${ip}' to the list of IPs`);
+  }
+}
+
 module.exports = {
   ipList,
   pingHost,
-  getIpFromList
+  getIpFromList,
+  storeIp
 };
 
 
