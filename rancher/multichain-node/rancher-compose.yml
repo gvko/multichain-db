@@ -1,6 +1,6 @@
 version: '2'
 services:
-  multichain:
+  multichain-node:
     scale: 1
     start_on_create: true
     upgrade_strategy:

@@ -5,7 +5,6 @@ services:
     image: 630540209408.dkr.ecr.eu-central-1.amazonaws.com/multichain-node-and-app.develop:latest
     environment:
       - BLOCKCHAIN_NAME=esmiley
-      - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
       - NODE_PORT_RPC=4001
@@ -14,6 +13,8 @@ services:
     stdin_open: true
 #    secrets:
     tty: true
+    external_links:
+      - ip-seeder/ip-seeder:ip-seeder
     labels:
       service: multichain
       io.rancher.container.hostname_override: container_name
