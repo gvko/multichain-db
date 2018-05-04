@@ -1,0 +1,20 @@
+version: '2'
+services:
+  ip-seeder:
+    mem_limit: 268435456
+    image: 630540209408.dkr.ecr.eu-central-1.amazonaws.com/ip-seeder.develop:latest
+    stdin_open: true
+#    secrets:
+    tty: true
+    labels:
+      service: multichain
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.pull_image: always
+      stack_group: user
+    logging:
+      driver: json-file
+#secrets:
+#  USERNAME:
+#    external: true
+#  PASSWORD:
+#    external: true
