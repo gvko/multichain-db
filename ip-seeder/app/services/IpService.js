@@ -54,11 +54,11 @@ function getIpFromList() {
  * @param {string}  ip  The IP to add
  */
 function storeIp(ip) {
-  if (ipList.indexOf(ip) > 0) {
-    console.log(`*** IP '${ip}' is already on list of IPs. Skipping...`);
-  } else {
+  if (ipList.indexOf(ip) < 0) {
     ipList.push(ip);
     console.log(`*** Pushed '${ip}' to the list of IPs`);
+  } else {
+    console.log(`*** IP '${ip}' is already on list of IPs. Skipping...`);
   }
 }
 
