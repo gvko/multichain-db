@@ -26,9 +26,12 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
+console.log(`\n*** Starting server on port ${port}...`);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+require('./services/IpService').checkHostsAlive();
 
 /**
  * Normalize a port into a number, string, or false.

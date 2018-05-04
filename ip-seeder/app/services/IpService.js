@@ -2,6 +2,7 @@
 
 const ping = require('ping');
 const ipList = [];
+const CHECK_HOST_ALIVE_INTERVAL_MILLISECONDS = 60000;
 
 /**
  * Pings a host by a given IP and responds with whether it's alive or not.
@@ -53,7 +54,7 @@ function getIpFromList() {
  * @param {string}  ip  The IP to add
  */
 function storeIp(ip) {
-  if(ipList.indexOf(ip) > 0){
+  if (ipList.indexOf(ip) > 0) {
     console.log(`*** IP '${ip}' is already on list of IPs. Skipping...`);
   } else {
     ipList.push(ip);
@@ -61,11 +62,28 @@ function storeIp(ip) {
   }
 }
 
+/**
+ * Runs a recurring job every CHECK_HOST_ALIVE_INTERVAL_MILLISECONDS interval and check for each IP in the list of IPs
+ * whether the host is alive.
+ */
+function checkHostsAlive() {
+  console.log('*** Start recurring check for multichain node liveliness...');
+
+  setInterval(() => {
+    if (ipList.length > 0) {
+      ipList.forEach((ip) => {
+        pingHost(ip);
+      });
+    }
+  }, CHECK_HOST_ALIVE_INTERVAL_MILLISECONDS);
+}
+
 module.exports = {
   ipList,
   pingHost,
   getIpFromList,
-  storeIp
+  storeIp,
+  checkHostsAlive
 };
 
 
