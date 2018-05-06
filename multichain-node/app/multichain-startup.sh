@@ -54,14 +54,14 @@ function start_blockchain_foreground() {
   echo "*** Starting blockchain node (foreground process)..."
 
   # do NOT use `-daemon`, because we want the process to be running on foreground, so that the Docker container also runs
-  multichaind $BLOCKCHAIN_NAME -rpcallowip=0.0.0.0/0
+  multichaind $BLOCKCHAIN_NAME -rpcallowip=0.0.0.0/0 -autosubscribe=streams
 }
 
 function start_blockchain_background() {
   echo
   echo "*** Starting blockchain node (background process)..."
 
-  multichaind $BLOCKCHAIN_NAME -rpcallowip=0.0.0.0/0 -daemon
+  multichaind $BLOCKCHAIN_NAME -rpcallowip=0.0.0.0/0 -autosubscribe=streams -daemon
 
   export LAUNCH_SERVICE=true
 }
