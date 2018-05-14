@@ -2,7 +2,7 @@ version: '2'
 services:
   multichain-node:
     mem_limit: 268435456
-    image: 630540209408.dkr.ecr.eu-central-1.amazonaws.com/multichain-node-and-app.develop:latest
+    image: 630540209408.dkr.ecr.eu-central-1.amazonaws.com/multichain-node.develop:latest
     environment:
       - BLOCKCHAIN_NAME=esmiley
       - PARENT_NODE_PORT=4000
@@ -20,6 +20,8 @@ services:
       io.rancher.container.hostname_override: container_name
       io.rancher.container.pull_image: always
       stack_group: user
+      traefik.enable: stack
+
     logging:
       driver: json-file
 #secrets:
