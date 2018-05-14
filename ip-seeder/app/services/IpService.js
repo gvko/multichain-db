@@ -72,6 +72,7 @@ function checkHostsAlive() {
   setInterval(() => {
     if (ipList.length > 0) {
       ipList.forEach((ip) => {
+        console.log(`*** Recurring check for host liveliness: ${ip}`);
         pingHost(ip);
       });
     }

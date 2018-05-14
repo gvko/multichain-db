@@ -49,29 +49,6 @@ router.post('/publish', function (req, res, next) {
   const key = currentTimestamp.toString();
   const data = currentTimestamp.toString(16);
 
-  const publish = () => {
-    return multichain.publishPromise({
-      stream: 'test', key, data
-    });
-  };
-
-  // const promises = [];
-  // for (let i = 0; i < 1500; i++) {
-  //   console.log(`${key}_${i}`);
-  //   promises.push(multichain.publishPromise({ stream: 'test', key: `${key}_${i}`, data }));
-  // }
-  // console.time('publish');
-  // return Promise.all(promises)
-  //   .then((data) => res.json({ time: console.timeEnd('publish'), data }))
-  //   .catch((err) => console.error(err));
-
-  // return repeat(publish)
-  //   .every('500', 'milliseconds')
-  //   .for('10', 'sec')
-  //   .start.now()
-  //   .then(() => res.json({ msg: 'done' }))
-  //   .catch((err) => console.error(err));
-
   return multichain.publishPromise({
     stream: 'test', key, data
   })

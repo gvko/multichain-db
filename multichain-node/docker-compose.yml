@@ -13,6 +13,7 @@ services:
       - 4001
     tty: true
     environment:
+      - ENV=dev_local
       - BLOCKCHAIN_NAME=esmiley
 #      - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
@@ -37,6 +38,7 @@ services:
       - 4001
     tty: true
     environment:
+      - ENV=dev_local
       - BLOCKCHAIN_NAME=esmiley
 #      - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
@@ -61,6 +63,7 @@ services:
       - 4001
     tty: true
     environment:
+      - ENV=dev_local
       - BLOCKCHAIN_NAME=esmiley
 #      - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
