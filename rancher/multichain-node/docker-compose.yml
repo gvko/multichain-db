@@ -8,10 +8,10 @@ services:
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
       - NODE_PORT_RPC=4001
-      - RPC_PASSWORD=asdf1234
-      - RPC_USERNAME=multichainrpc
     stdin_open: true
-#    secrets:
+    secrets:
+      - RPC_USERNAME
+      - RPC_PASSWORD
     tty: true
     external_links:
       - ip-seeder/ip-seeder:ip-seeder
@@ -24,8 +24,8 @@ services:
 
     logging:
       driver: json-file
-#secrets:
-#  USERNAME:
-#    external: true
-#  PASSWORD:
-#    external: true
+secrets:
+  RPC_USERNAME:
+    external: true
+  RPC_PASSWORD:
+    external: true
