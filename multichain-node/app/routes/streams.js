@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
+const StreamService = require('../services/StreamService');
 
 /**
  * List all streams
@@ -20,29 +21,18 @@ router.get('/list', function (req, res, next) {
  *
  * If count is provided as query param - get up to that number of items. Otherwise, the default amount - 20.
  */
-router.get('/:streamName/items', function (req, res, next) {
-  const streamName = req.params.streamName;
+router.get('/:stream/items', function (req, res, next) {
+  const stream = req.params.stream;
   const count = req.query.count || undefined;
 
-  if (!streamName) {
+  if (!stream) {
     return res.json(new Error('Stream name must be provided.'));
   }
   if (count !== undefined && !RegExp('^[0-9]+$').test(req.query.count)) {
     return res.json(new Error('Count param must be an integer.'));
   }
 
-  return app.multichain.listStreamItemsPromise({ stream: streamName, count })
-    .then(items => {
-      items.forEach(item => {
-        item.data = JSON.parse(hexToStr(item.data));
-      });
-
-      res.json({ count: items.length, data: items })
-    })
-    .catch(err => {
-      console.error(err);
-      res.json(err);
-    });
+  res.json(StreamService.listStreamItems(stream, count));
 });
 
 /**
@@ -115,18 +105,5 @@ router.post('/publish', function (req, res, next) {
     });
 });
 
-function strToHex(str) {
-  let hex = '';
-
-  for (let i = 0; i < str.length; i++) {
-    hex += '' + str.charCodeAt(i).toString(16);
-  }
-
-  return hex;
-}
-
-function hexToStr(hexStr) {
-  return new Buffer.from(hexStr, 'hex');
-}
 
 module.exports = router;
