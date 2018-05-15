@@ -39,8 +39,8 @@ app.use(function (err, req, res, next) {
 const bluebird = require('bluebird');
 const Multichain = require('multichain-node');
 const multichain = bluebird.promisifyAll(Multichain({
-  user: 'multichainrpc',
-  pass: 'asdf1234',
+  user: process.env.RPC_USERNAME,
+  pass: process.env.RPC_PASSWORD,
   host: process.env.NODE_HOST_IP,
   port: process.env.NODE_PORT_RPC
 }), { suffix: 'Promise' });
