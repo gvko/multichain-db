@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
+const streams = require('./routes/streams');
 
 global.app = express();
 
@@ -15,6 +16,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/streams', streams);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -33,5 +35,16 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json('error');
 });
+
+const bluebird = require('bluebird');
+const Multichain = require('multichain-node');
+const multichain = bluebird.promisifyAll(Multichain({
+  user: 'multichainrpc',
+  pass: 'asdf1234',
+  host: process.env.NODE_HOST_IP,
+  port: process.env.NODE_PORT_RPC
+}), { suffix: 'Promise' });
+
+app.multichain = multichain;
 
 module.exports = app;
