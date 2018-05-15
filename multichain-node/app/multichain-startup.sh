@@ -126,6 +126,8 @@ function get_current_node_ip() {
 
 
 BLOCKCHAIN_DIR="/root/.multichain/$BLOCKCHAIN_NAME"
+export RPC_USERNAME=$(cat /run/secrets/RPC_USERNAME)
+export RPC_PASSWORD=$(cat /run/secrets/RPC_PASSWORD)
 
 if [ -d "$BLOCKCHAIN_DIR" ]; then
   echo "*** Current Blockchain node already set up."
