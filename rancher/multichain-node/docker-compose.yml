@@ -13,6 +13,8 @@ services:
       - RPC_USERNAME
       - RPC_PASSWORD
     tty: true
+    ports:
+      - 80:3000
     external_links:
       - ip-seeder/ip-seeder:ip-seeder
     labels:

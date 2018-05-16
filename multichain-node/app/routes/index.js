@@ -14,4 +14,8 @@ router.get('/info', function (req, res, next) {
     });
 });
 
+router.get('/ping', function (req, res, next) {
+  return res.sendStatus(418).send('pong');
+});
+
 module.exports = router;

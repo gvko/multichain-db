@@ -6,6 +6,8 @@ services:
     stdin_open: true
 #    secrets:
     tty: true
+    ports:
+      - 9000:3000
     labels:
       service: multichain
       io.rancher.container.hostname_override: container_name
