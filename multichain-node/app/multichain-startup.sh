@@ -105,24 +105,29 @@ function get_current_node_ip() {
 
 # --------- Execution starts here ---------
 
-# Check if the multichain blockchain node dir exists. If yes - start up the node and publish its IP to the seeder.
-# If not, then it is a fresh container with no BC node config on it.
-# Then get an IP of an existing node on the network from the IP-seeder.
-# > If the response is "NO-IP", it means there are no IPs in the list, which means it's the first/root node in the
-# chain. Therefore:
-# --> Create a new blockchain configuration
-# --> Start it in the background, so we can issue a command to stop it (so we can update the RPC credentials)
-# --> wait 2 seconds for it to start and then stop it
-# --> Update the RPC credentials
-# --> Start the node in the foreground
-# --> Publish its IP to the IP-seeder
+# Check if the multichain blockchain node dir exists.
+# -> If yes:
+# --> start up the node
+# --> publish its IP to the container environment and the IP-seeder
+# -> If not:
+# --> then it is a fresh container with no BC node config on it. Proceed to the steps described below...
 #
-# > Otherwise the response should be an IP of an existing/parent node. Then:
-# --> Connect to that parent node
-# --> Grant permissions for the current node
-# --> Then update the RPC credentials (the `multichain.conf` has been created already)
-# --> Then start the node
-# --> Publish its IP to the IP-seeder
+# Then get an IP of an existing node on the network from the IP-seeder.
+# -> If the response is "NO-IP", it means there are no IPs in the list, which means it's the first (root) node in the
+# chain. Therefore:
+# --> create a new blockchain configuration
+# --> start it in the background, so the RPC credentials are generated
+# --> wait 2 seconds for it to start and then stop it
+# --> update the RPC credentials
+# --> start the node
+# --> publish its IP to the container environment and the IP-seeder
+#
+# -> Otherwise the response should be an IP of an existing (parent) node. Then:
+# --> connect to that parent node. According to result, do 3 extra requests to the IP-seeder. If none successful - kill the node
+# --> grant permissions for the current node
+# --> update the RPC credentials (the `multichain.conf` has been created already)
+# --> start the node
+# --> publish its IP to the container environment and the IP-seeder
 
 
 BLOCKCHAIN_DIR="/root/.multichain/$BLOCKCHAIN_NAME"
@@ -169,7 +174,7 @@ else
 
       if [[ $THRESHOLD -lt 1 ]]; then
         echo
-        echo "*** Node could not connect to three different root nodes. Exiting..."
+        echo "*** ERROR: Node could not connect to three different root nodes. Exiting..."
 
         export LAUNCH_SERVICE=false
         exit 1;
