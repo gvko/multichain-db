@@ -131,12 +131,20 @@ function get_current_node_ip() {
 
 
 BLOCKCHAIN_DIR="/root/.multichain/$BLOCKCHAIN_NAME"
-export RPC_USERNAME=$(cat /run/secrets/RPC_USERNAME)
-export RPC_PASSWORD=$(cat /run/secrets/RPC_PASSWORD)
+
+# If the RPC username and password aren't passed directly to the container (local dev env), then they are provided as
+# Rancher secrets
+if [ -z "$RPC_USERNAME" ]; then
+  export RPC_USERNAME=$(cat /run/secrets/RPC_USERNAME)
+fi
+if [ -z "$RPC_USERNAME" ]; then
+  export RPC_PASSWORD=$(cat /run/secrets/RPC_PASSWORD)
+fi
 
 if [ -d "$BLOCKCHAIN_DIR" ]; then
   echo "*** Current Blockchain node already set up."
 
+#TODO: set it up so that it connects to the network, even tho it has already been set up
   start_blockchain_background
   get_current_node_ip
   publish_ip_to_seeder
