@@ -9,6 +9,8 @@ services:
       - './app:/app'
     command: 'npm run start-nodemon'
     tty: true
+    environment:
+      - CHECK_HOST_ALIVE_INTERVAL_MILLISECONDS=10000
     container_name: ip-seeder
     networks:
       - default

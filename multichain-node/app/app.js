@@ -38,6 +38,16 @@ app.use(function (err, req, res, next) {
 
 const bluebird = require('bluebird');
 const Multichain = require('multichain-node');
+
+if(!process.env.RPC_USERNAME){
+  console.error('\n*** ERROR: RPC_USERNAME env var is not defined! Exiting...');
+  process.exit(1);
+}
+if(!process.env.RPC_PASSWORD){
+  console.error('\n*** ERROR: RPC_PASSWORD env var is not defined! Exiting...');
+  process.exit(1);
+}
+
 const multichain = bluebird.promisifyAll(Multichain({
   user: process.env.RPC_USERNAME,
   pass: process.env.RPC_PASSWORD,

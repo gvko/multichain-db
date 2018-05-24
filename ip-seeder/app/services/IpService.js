@@ -2,7 +2,6 @@
 
 const ping = require('ping');
 const ipList = [];
-const CHECK_HOST_ALIVE_INTERVAL_MILLISECONDS = 60000;
 
 /**
  * Pings a host by a given IP and responds with whether it's alive or not.
@@ -67,7 +66,8 @@ function storeIp(ip) {
  * whether the host is alive.
  */
 function checkHostsAlive() {
-  console.log('*** Start recurring check for multichain node liveliness...');
+  const recurringTime = process.env.CHECK_HOST_ALIVE_INTERVAL_MILLISECONDS;
+  console.log(`*** Start recurring check for multichain node liveliness (every ${recurringTime / 1000} seconds)`);
 
   setInterval(() => {
     if (ipList.length > 0) {
@@ -76,7 +76,7 @@ function checkHostsAlive() {
         pingHost(ip);
       });
     }
-  }, CHECK_HOST_ALIVE_INTERVAL_MILLISECONDS);
+  }, recurringTime);
 }
 
 module.exports = {

@@ -137,7 +137,7 @@ BLOCKCHAIN_DIR="/root/.multichain/$BLOCKCHAIN_NAME"
 if [ -z "$RPC_USERNAME" ]; then
   export RPC_USERNAME=$(cat /run/secrets/RPC_USERNAME)
 fi
-if [ -z "$RPC_USERNAME" ]; then
+if [ -z "$RPC_PASSWORD" ]; then
   export RPC_PASSWORD=$(cat /run/secrets/RPC_PASSWORD)
 fi
 
