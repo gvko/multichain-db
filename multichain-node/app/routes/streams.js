@@ -85,11 +85,11 @@ router.post('/subscribe', function (req, res, next) {
  * Publish an item to the stream with the provided name
  */
 router.post('/publish', function (req, res, next) {
-  const name = req.body.name;
+  const stream = req.body.stream;
   const key = req.body.key;
   const value = req.body.value;
 
-  if (!name) {
+  if (!stream) {
     return res.json(new Error('Stream name must be provided.'));
   }
   if (!key) {
@@ -100,18 +100,25 @@ router.post('/publish', function (req, res, next) {
   }
 
   const data = strToHex(JSON.stringify(value));
-  console.log({
-    value,
-    data
-  });
 
-  return app.multichain.publishPromise({
-    stream: name, key, data
-  })
+  console.log(`> Publishing new data to stream '${stream}'...`);
+
+  return app.multichain.publishPromise({ stream, key, data })
     .then(data => res.json(data))
     .catch(err => {
-      console.error(err);
-      res.json(err);
+      console.log(`> Stream '${stream}' does not exist. Creating it now...`);
+
+      return app.multichain.createPromise({ type: 'stream', name: stream, open: true })
+        .then(() => {
+          console.log(`> Publishing new data to newly created stream '${stream}'...`);
+
+          return app.multichain.publishPromise({ stream, key, data })
+        })
+        .then(data => res.json(data))
+        .catch(err => {
+          console.error(err);
+          res.json(err);
+        });
     });
 });
 
