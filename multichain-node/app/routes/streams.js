@@ -18,26 +18,37 @@ router.get('/list', function (req, res, next) {
 /**
  * List the items of a particular stream, requested by stream name.
  *
- * If count is provided as query param - get up to that number of items. Otherwise, the default amount - 20.
+ * If count is provided as query param - get up to that number of items. Otherwise, the default amount of 20.
  */
-router.get('/:streamName/items', function (req, res, next) {
-  const streamName = req.params.streamName;
-  const count = req.query.count || undefined;
+router.get('/:stream/items', function (req, res, next) {
+  const stream = req.params.stream;
+  const count = req.query.count || 20;
 
-  if (!streamName) {
+  if (!stream) {
     return res.json(new Error('Stream name must be provided.'));
   }
-  if (count !== undefined && !RegExp('^[0-9]+$').test(req.query.count)) {
+  if (!RegExp('^[0-9]+$').test(count)) {
     return res.json(new Error('Count param must be an integer.'));
   }
 
-  return app.multichain.listStreamItemsPromise({ stream: streamName, count })
+  console.log(`> Listing the last ${count} items for stream '${stream}'...`);
+
+  const data = [];
+
+  return app.multichain.listStreamItemsPromise({ stream, count })
     .then(items => {
       items.forEach(item => {
-        item.data = JSON.parse(hexToStr(item.data));
+        const itemData = JSON.parse(hexToStr(item.data));
+
+        data.push({
+          publisher: item.publishers[0],
+          timestamp: item.keys[0],
+          deviceType: itemData.deviceType,
+          measurements: itemData.measurements
+        });
       });
 
-      res.json({ count: items.length, data: items })
+      res.json({ count: data.length, data });
     })
     .catch(err => {
       console.error(err);
@@ -54,6 +65,8 @@ router.post('/create', function (req, res, next) {
   if (!name) {
     return res.json(new Error('Stream name must be provided.'));
   }
+
+  console.log(`> Creating stream '${name}'...`);
 
   return app.multichain.createPromise({ type: 'stream', name, open: true })
     .then(data => res.json(data))
@@ -85,9 +98,15 @@ router.post('/subscribe', function (req, res, next) {
  * Publish an item to the stream with the provided name
  */
 router.post('/publish', function (req, res, next) {
-  const stream = req.body.stream;
-  const key = req.body.key;
-  const value = req.body.value;
+  const bodyData = req.body.newest_data;
+  const info = req.body.info;
+
+  const stream = bodyData.device;
+  const key = bodyData.timestamp.toString();
+  const value = {
+    measurements: bodyData.values,
+    deviceType: info.substring(info.indexOf('"') + 1, info.lastIndexOf('"'))
+  };
 
   if (!stream) {
     return res.json(new Error('Stream name must be provided.'));
@@ -95,7 +114,7 @@ router.post('/publish', function (req, res, next) {
   if (!key) {
     return res.json(new Error('Item key must be provided.'));
   }
-  if (!value) {
+  if (!value.measurements) {
     return res.json(new Error('Item value must be provided.'));
   }
 
@@ -112,7 +131,7 @@ router.post('/publish', function (req, res, next) {
         .then(() => {
           console.log(`> Publishing new data to newly created stream '${stream}'...`);
 
-          return app.multichain.publishPromise({ stream, key, data })
+          return app.multichain.publishPromise({ stream, key, data });
         })
         .then(data => res.json(data))
         .catch(err => {
