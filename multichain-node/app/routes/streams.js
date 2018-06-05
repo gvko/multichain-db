@@ -22,7 +22,7 @@ router.get('/list', function (req, res, next) {
  */
 router.get('/:stream/items', function (req, res, next) {
   const stream = req.params.stream;
-  const count = req.query.count || 20;
+  const count = parseInt(req.query.count) || 20;
 
   if (!stream) {
     return res.json(new Error('Stream name must be provided.'));
