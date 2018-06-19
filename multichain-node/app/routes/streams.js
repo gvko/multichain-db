@@ -48,7 +48,7 @@ router.get('/:stream/items', function (req, res, next) {
         });
       });
 
-      res.json({ count: data.length, data });
+      res.json({ count: data.length });
     })
     .catch(err => {
       console.error(err);
@@ -98,6 +98,44 @@ router.post('/subscribe', function (req, res, next) {
  * Publish an item to the stream with the provided name
  */
 router.post('/publish', function (req, res, next) {
+  const inputObj = {
+    "info": "A device of type \"Orbit\".",
+    "newest_data": {
+      "device": "TEST",
+      "timestamp": 1526990675,
+      "rawdata": "22.90,68.5",
+      "values": [
+        {
+          "label": "tempAir",
+          "value": 22.9
+        },
+        {
+          "label": "humAir",
+          "value": 68.5
+        }
+      ]
+    }
+  };
+
+  const input = [];
+  for (let i = 0; i < 5000; i++) {
+    inputObj.newest_data.timestamp++;
+    input.push({ body: inputObj });
+  }
+
+  const promises = [];
+
+  console.time('publish');
+  for (let i = 0; i < 3200; i++) {
+    promises.push(performPublish(input[i]));
+  }
+  console.timeEnd('publish');
+
+  Promise.all(promises)
+    .then(asd => res.json({}));
+});
+
+function performPublish(req) {
   const bodyData = req.body.newest_data;
   const info = req.body.info;
 
@@ -108,38 +146,10 @@ router.post('/publish', function (req, res, next) {
     deviceType: info.substring(info.indexOf('"') + 1, info.lastIndexOf('"'))
   };
 
-  if (!stream) {
-    return res.json(new Error('Stream name must be provided.'));
-  }
-  if (!key) {
-    return res.json(new Error('Item key must be provided.'));
-  }
-  if (!value.measurements) {
-    return res.json(new Error('Item value must be provided.'));
-  }
-
   const data = strToHex(JSON.stringify(value));
 
-  console.log(`> Publishing new data to stream '${stream}'...`);
-
-  return app.multichain.publishPromise({ stream, key, data })
-    .then(data => res.json(data))
-    .catch(err => {
-      console.log(`> Stream '${stream}' does not exist. Creating it now...`);
-
-      return app.multichain.createPromise({ type: 'stream', name: stream, open: true })
-        .then(() => {
-          console.log(`> Publishing new data to newly created stream '${stream}'...`);
-
-          return app.multichain.publishPromise({ stream, key, data });
-        })
-        .then(data => res.json(data))
-        .catch(err => {
-          console.error(err);
-          res.json(err);
-        });
-    });
-});
+  return app.multichain.publishPromise({ stream, key, data });
+}
 
 function strToHex(str) {
   let hex = '';
