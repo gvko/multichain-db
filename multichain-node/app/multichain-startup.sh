@@ -46,7 +46,9 @@ function create_new_blockchain() {
   -anyone-can-create=true \
   -anyone-can-receive=true \
   -anyone-can-send=true \
-  -anyone-can-activate=true
+  -anyone-can-activate=true \
+  -anyone-can-admin=true \
+  -anyone-can-mine=true
 }
 
 function start_blockchain_foreground() {
