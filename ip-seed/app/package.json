@@ -13,7 +13,6 @@
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
     "express": "~4.16.4",
-    "multichain-node": "^2.2.0-version1.0.4",
     "nodemon": "^1.17.3",
     "ping": "^0.2.2",
     "repeat": "^1.1.4"
