@@ -1,6 +1,6 @@
 {
   "name": "ip-seed",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "docker-compose up ip-seed",
@@ -18,5 +18,18 @@
     "nodemon": "^1.17.3",
     "ping": "^0.2.2",
     "repeat": "^1.1.4"
-  }
+  },
+  "engines": {
+    "node": "~11.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gvko/multichain-db.git"
+  },
+  "author": "Galin Kostov <gvko@pm.me>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gvko/multichain-db/issues"
+  },
+  "homepage": "https://github.com/gvko/multichain-db#readme"
 }
