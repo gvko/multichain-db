@@ -1,6 +1,6 @@
 version: '2'
 services:
-  node-front:
+  app-1:
     build: .
     ports:
       - '9010:3000'
@@ -10,11 +10,11 @@ services:
     command: 'npm run start-nodemon'
     environment:
       - MULTICHAIN_HOST=172.20.0.2
-    container_name: node-front-multichain
+    container_name: multichain-app-1
     networks:
       - default
 
-  node-front-1:
+  app-2:
     build: .
     ports:
       - '9011:3000'
@@ -24,11 +24,11 @@ services:
     command: 'npm run start-nodemon'
     environment:
       - MULTICHAIN_HOST=172.20.0.3
-    container_name: node-front-multichain-1
+    container_name: multichain-app-2
     networks:
       - default
 
-  node-front-2:
+  app-3:
     build: .
     ports:
       - '9012:3000'
@@ -38,7 +38,7 @@ services:
     command: 'npm run start-nodemon'
     environment:
       - MULTICHAIN_HOST=172.20.0.4
-    container_name: node-front-multichain-2
+    container_name: multichain-app-3
     networks:
       - default
 

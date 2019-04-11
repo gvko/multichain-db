@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "docker-compose up node-front",
+    "start": "docker-compose up ",
     "start-nodemon": "nodemon ./index.js"
   },
   "dependencies": {
@@ -13,7 +13,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
-    "multichain-node": "git://github.com/galioy/multichain-node.git#patch-1",
+    "multichain-node": "^2.2.0-version1.0.4",
     "nodemon": "^1.17.3",
     "repeat": "0.0.6"
   }

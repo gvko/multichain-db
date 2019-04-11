@@ -1,4 +1,4 @@
-FROM multichain:latest
+FROM galioy/multichain:latest
 
 WORKDIR /multichain
 
