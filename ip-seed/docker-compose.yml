@@ -1,0 +1,20 @@
+version: '2'
+services:
+  ip-seed:
+    build: .
+    ports:
+      - '9009:3000'
+    tty: true
+    volumes:
+      - './app:/app'
+    environment:
+      - EXPOSED_PORT=9009
+    command: 'npm run start-nodemon'
+    container_name: ip-seed
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: multichain-network
