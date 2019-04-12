@@ -5,8 +5,7 @@ const router = express.Router();
 const ipService = require('../services/ip');
 
 router.get('/check', async (req, res, next) => {
-  const checkResult = await ipService.checkLivelinessAndRemove(req.query.ip);
-  res.send(checkResult.alive);
+  res.send(await ipService.checkLivelinessAndRemove(req.query.ip));
 });
 
 router.get('/get', async (req, res, next) => {

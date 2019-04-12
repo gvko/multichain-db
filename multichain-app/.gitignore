@@ -31,4 +31,3 @@ node_modules
 .DS_Store
 
 # Others
-app/package-lock.json

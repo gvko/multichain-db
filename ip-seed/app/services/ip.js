@@ -36,7 +36,7 @@ function remove(ip) {
 
     return true;
   } else {
-    log.warn({ ip }, 'Could not remove node IP: not present in the seed');
+    log.warn({ ip }, `Could not remove node IP ${ip}: not present in the seed`);
 
     return false;
   }
@@ -48,11 +48,17 @@ function remove(ip) {
  * @returns {string} an IP
  */
 async function getRandomNodeIp() {
-  let proceed = true;
+  if (ipList.length < 1) {
+    log.warn('Seed is empty! Return "NO-IP" signal!');
+
+    return 'NO-IP';
+  }
+
+  let stop = true;
   let ip = ipList[randomIntFromInterval(0, ipList.length)];
 
-  while (ipList.length > 0 && proceed) {
-    proceed = await checkLivelinessAndRemove(ip);
+  while (ipList.length > 0 && !stop) {
+    stop = await checkLivelinessAndRemove(ip);
   }
 
   return ip;
@@ -76,20 +82,26 @@ async function checkNodeIsLive(ip) {
  * @returns {Promise<boolean>}
  */
 async function checkLivelinessAndRemove(ip) {
+  if (ipList.length < 1) {
+    log.warn('Seed is empty! Nothing to check liveliness for...');
+
+    return false;
+  }
+
   const checkRes = await checkNodeIsLive(ip);
 
   if (!checkRes.alive) {
-    log.warn({ ip }, 'Node is not live. Removing IP from seed...');
+    log.warn({ ip }, `Node is not live. Removing IP ${ip} from seed...`);
     remove(ip);
 
-    return true;
-  } else {
     return false;
+  } else {
+    return true;
   }
 }
 
 function repeatCheckNodesLiveliness() {
-  log.info(`Start repetitive check for node liveliness every ${REPEAT_NODE_LIVE_CHECK_MILLISECONDS}`);
+  log.info(`Start repetitive check for node liveliness every ${REPEAT_NODE_LIVE_CHECK_MILLISECONDS / 1000} sec`);
 
   repeat()
     .do(() => {

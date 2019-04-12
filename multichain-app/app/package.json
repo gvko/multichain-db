@@ -1,20 +1,36 @@
 {
-  "name": "backend",
-  "version": "0.0.0",
+  "name": "multichain-app",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "docker-compose up ",
-    "start-nodemon": "nodemon ./index.js"
+    "start-nodemon": "nodemon ./app.js"
   },
   "dependencies": {
-    "bluebird": "^3.5.1",
     "body-parser": "~1.18.2",
-    "commons-node": "git://github.com/galioy/commons-node.git#master",
+    "bunyan": "^1.8.12",
+    "bunyan-pretty": "0.0.1",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.15.5",
+    "cors": "^2.8.5",
+    "express": "~4.16.4",
     "multichain-node": "^2.2.0-version1.0.4",
+    "node-cron": "^2.0.3",
     "nodemon": "^1.17.3",
-    "repeat": "0.0.6"
-  }
+    "q": "^1.5.1",
+    "request": "^2.88.0",
+    "request-promise-any": "^1.0.7"
+  },
+  "engines": {
+    "node": "~11.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gvko/multichain-db.git"
+  },
+  "author": "Galin Kostov <gvko@pm.me>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gvko/multichain-db/issues"
+  },
+  "homepage": "https://github.com/gvko/multichain-db#readme"
 }

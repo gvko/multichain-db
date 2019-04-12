@@ -1,37 +1,45 @@
-'use strict';
+#!/usr/bin/env node
 
 const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
-const index = require('./routes/index');
+const errorHandler = require('./util/catch-and-log-errors');
+const logger = require('./util/logger');
 
-global.app = express();
+const indexRouter = require('./routes/index');
+const streamRouter = require('./routes/stream');
+const multichainService = require('./services/multichain');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+const app = express();
+const port = process.env.PORT || '3000';
 
-app.use('/', index);
+app
+  .use(bodyParser.json())
+  .options('*', cors())
+  .use(cors())
+  .use(bodyParser.urlencoded({ extended: true }))
+  /*
+   * Routes
+   */
+  .use('/index', indexRouter)
+  .use('/stream', streamRouter)
+  /*
+   * Error handler
+   */
+  .use(errorHandler);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+const log = logger(process.env.APP_NAME);
+app.log = log;
+global.log = log;
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+/*
+ * Start the service
+ */
+app.listen(port, async () => {
+  log.info(`Server started on port ${port} (container exposed: ${process.env.EXPOSED_PORT})`);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.json('error');
+  app.multichain = await multichainService.init(app);
 });
 
 module.exports = app;

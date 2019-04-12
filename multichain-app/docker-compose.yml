@@ -3,32 +3,25 @@ services:
   app-1:
     build: .
     ports:
-      - '9010:3000'
-    tty: true
-    volumes:
-      - './app:/app'
-    command: 'npm run start-nodemon'
-    environment:
-      - MULTICHAIN_HOST=172.20.0.2
-    container_name: multichain-app-1
-    networks:
-      - default
-
-  app-2:
-    build: .
-    ports:
       - '9011:3000'
     tty: true
     volumes:
       - './app:/app'
     command: 'npm run start-nodemon'
     environment:
-      - MULTICHAIN_HOST=172.20.0.3
-    container_name: multichain-app-2
+      - APP_NAME=multichain-app-1
+      - EXPOSED_PORT=9011
+      - IP_SEED_HOST=ip-seed
+      - IP_SEED_PORT=3000
+      #      - MULTICHAIN_HOST=172.20.0.2
+      - MULTICHAIN_USER=multichainrpc
+      - MULTICHAIN_PASS=asdf1234
+      - MULTICHAIN_PORT=4001
+    container_name: multichain-app-1
     networks:
       - default
 
-  app-3:
+  app-2:
     build: .
     ports:
       - '9012:3000'
@@ -37,7 +30,35 @@ services:
       - './app:/app'
     command: 'npm run start-nodemon'
     environment:
-      - MULTICHAIN_HOST=172.20.0.4
+      - APP_NAME=multichain-app-2
+      - EXPOSED_PORT=9012
+      - IP_SEED_HOST=ip-seed
+      - IP_SEED_PORT=3000
+      #      - MULTICHAIN_HOST=172.20.0.3
+      - MULTICHAIN_USER=multichainrpc
+      - MULTICHAIN_PASS=asdf1234
+      - MULTICHAIN_PORT=4001
+    container_name: multichain-app-2
+    networks:
+      - default
+
+  app-3:
+    build: .
+    ports:
+      - '9013:3000'
+    tty: true
+    volumes:
+      - './app:/app'
+    command: 'npm run start-nodemon'
+    environment:
+      - APP_NAME=multichain-app-3
+      - EXPOSED_PORT=9013
+      - IP_SEED_HOST=ip-seed
+      - IP_SEED_PORT=3000
+      #      - MULTICHAIN_HOST=172.20.0.4
+      - MULTICHAIN_USER=multichainrpc
+      - MULTICHAIN_PASS=asdf1234
+      - MULTICHAIN_PORT=4001
     container_name: multichain-app-3
     networks:
       - default
