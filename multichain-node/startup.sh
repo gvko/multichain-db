@@ -27,6 +27,8 @@ function publish_ip_to_seed() {
   curl -H "Content-Type: application/json" -X POST \
   -d '{"ip": "'"$CURRENT_NODE_IP"'"}' \
   ip-seed:3000/ip/publish
+
+  #TODO: loop requesting to publish, in case ip-seed is unavailable, for 5 times
 }
 
 function connect_to_existing_blockchain() {
@@ -98,6 +100,14 @@ function get_current_node_ip() {
   echo "===> Getting the current node's IP..."
 
   CURRENT_NODE_IP=$(multichain-cli $BLOCKCHAIN_NAME getinfo | grep nodeaddress | grep -o -P '(?<=@).*(?=:40)')
+
+  echo "===> IP: $CURRENT_NODE_IP"
+}
+
+function keep_container_running() {
+  echo
+  echo "===> Ready!"
+  tail -f /dev/null
 }
 
 # --------- Execution starts here ---------
@@ -132,10 +142,12 @@ BLOCKCHAIN_DIR="/root/.multichain/$BLOCKCHAIN_NAME"
 # If the RPC username and password aren't passed directly to the container (local dev env), then they are provided as
 # Rancher secrets
 if [ -z "$RPC_USERNAME" ]; then
-  export RPC_USERNAME=$(cat /run/secrets/RPC_USERNAME)
+  echo "===> ERROR: RPC username not provided. Exiting..."
+  exit 1
 fi
 if [ -z "$RPC_PASSWORD" ]; then
-  export RPC_PASSWORD=$(cat /run/secrets/RPC_PASSWORD)
+  echo "===> ERROR: RPC password not provided. Exiting..."
+  exit 1
 fi
 
 if [ -d "$BLOCKCHAIN_DIR" ]; then
@@ -145,12 +157,13 @@ if [ -d "$BLOCKCHAIN_DIR" ]; then
   start_blockchain_background
   get_current_node_ip
   publish_ip_to_seed
+  keep_container_running
 else
   echo "===> Current Blockchain node not set up yet."
 
   get_ip_from_seed
 
-  if [ $RES == "NO-IP" ]; then
+  if [ $RES == "NO-IP" ] || [ -z "$RES" ]; then
     echo
     echo "===> No seed IPs registered yet. This is the root node of the Blockchain."
 
@@ -163,6 +176,7 @@ else
     start_blockchain_background
     get_current_node_ip
     publish_ip_to_seed
+    keep_container_running
   else
     echo
     echo "===> Root node IP provided: $RES"
@@ -200,5 +214,6 @@ else
     start_blockchain_background
     get_current_node_ip
     publish_ip_to_seed
+    keep_container_running
   fi
 fi

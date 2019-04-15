@@ -11,7 +11,7 @@ services:
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
-      - NODE_RPC_PORT=4001
+      - NODE_PORT_RPC=4001
       - RPC_PASSWORD=asdf1234
       - RPC_USERNAME=multichainrpc
     container_name: node1
@@ -29,7 +29,7 @@ services:
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
-      - NODE_RPC_PORT=4001
+      - NODE_PORT_RPC=4001
       - RPC_PASSWORD=asdf1234
       - RPC_USERNAME=multichainrpc
     container_name: node2
@@ -47,7 +47,7 @@ services:
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
-      - NODE_RPC_PORT=4001
+      - NODE_PORT_RPC=4001
       - RPC_PASSWORD=asdf1234
       - RPC_USERNAME=multichainrpc
     container_name: node3
@@ -65,7 +65,7 @@ services:
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
-      - NODE_RPC_PORT=4001
+      - NODE_PORT_RPC=4001
       - RPC_PASSWORD=asdf1234
       - RPC_USERNAME=multichainrpc
     container_name: node4
