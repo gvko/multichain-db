@@ -12,7 +12,13 @@ async function listStreams(app) {
 
 async function listStreamItems(app, stream, itemsCount) {
   try {
-    const data = await app.multichain.listStreamItems({ stream, count: itemsCount || 9999 });
+    const rawData = await app.multichain.listStreamItems({ stream, count: itemsCount || 9999 });
+    const data = [];
+
+    for (const row of rawData) {
+      data.push(JSON.parse(hexToStr(row.data)));
+    }
+
     return { count: data.length, data };
   } catch (err) {
     throw createError('Could not list stream items', { err });
@@ -35,15 +41,30 @@ async function subscribeToStream(app, stream) {
   }
 }
 
-async function publishDataToStream(app, stream, data) {
+async function publishDataToStream(app, stream, inputData) {
   const currentTimestamp = Math.floor(Date.now() / 1000);
   const key = currentTimestamp.toString();
+  const data = strToHex(JSON.stringify(inputData));
 
   try {
-    return await app.multichain.publish({ stream, key, data: JSON.stringify(data) });
+    return await app.multichain.publish({ stream, key, data });
   } catch (err) {
     throw createError('Could not publish data to the stream', { err });
   }
+}
+
+function strToHex(str) {
+  let hex = '';
+
+  for (let i = 0; i < str.length; i++) {
+    hex += '' + str.charCodeAt(i).toString(16);
+  }
+
+  return hex;
+}
+
+function hexToStr(hexStr) {
+  return new Buffer.from(hexStr, 'hex');
 }
 
 module.exports = {
