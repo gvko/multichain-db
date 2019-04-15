@@ -1,13 +1,13 @@
 version: '2'
 services:
   node1:
-    image: multichain-node:latest
+    build: .
     expose:
       - 4000
       - 4001
     tty: true
     environment:
-      - BLOCKCHAIN_NAME=mah-blockchain
+      - BLOCKCHAIN_NAME=strv
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
@@ -19,13 +19,13 @@ services:
       - default
 
   node2:
-    image: multichain-node:latest
+    build: .
     expose:
       - 4000
       - 4001
     tty: true
     environment:
-      - BLOCKCHAIN_NAME=mah-blockchain
+      - BLOCKCHAIN_NAME=strv
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
@@ -37,13 +37,13 @@ services:
       - default
 
   node3:
-    image: multichain-node:latest
+    build: .
     expose:
       - 4000
       - 4001
     tty: true
     environment:
-      - BLOCKCHAIN_NAME=mah-blockchain
+      - BLOCKCHAIN_NAME=strv
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
@@ -55,13 +55,13 @@ services:
       - default
 
   node4:
-    image: multichain-node:latest
+    build: .
     expose:
       - 4000
       - 4001
     tty: true
     environment:
-      - BLOCKCHAIN_NAME=mah-blockchain
+      - BLOCKCHAIN_NAME=strv
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
