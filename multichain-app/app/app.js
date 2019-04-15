@@ -22,7 +22,7 @@ app
   /*
    * Routes
    */
-  .use('/index', indexRouter)
+  .use('/', indexRouter)
   .use('/stream', streamRouter)
   /*
    * Error handler

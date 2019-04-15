@@ -3,7 +3,11 @@
 const createError = require('../util/create-error');
 
 async function getNodeInfo(app) {
-  return await app.multichain.getInfo();
+  try {
+    return await app.multichain.getInfo();
+  } catch (err) {
+    throw createError('Could not get info about node', { err });
+  }
 }
 
 module.exports = {

@@ -4,7 +4,7 @@ const Multichain = require('multichain-node');
 const httpRequest = require('../util/http-request');
 const cron = require('node-cron');
 
-const REPEAT_NODE_LIVE_CHECK_SEC = 5000;
+const REPEAT_NODE_LIVE_CHECK_SEC = 5;
 let task;
 
 /**
@@ -37,6 +37,7 @@ async function createNewMultichainConnection(host) {
 
   try {
     await multichain.getInfo();
+    log.info(`Successfully connected to ${host}`);
   } catch (err) {
     log.warn({ host, err }, 'Cloud NOT connect to Multichain Node!');
   }
@@ -79,7 +80,10 @@ async function checkNodeIsLiveAndReconnect(app, host) {
     log.warn({ host }, `Multichain Node is down! IP ${host}`);
 
     const newHost = await getNodeHost();
-    app.multichain = await createNewMultichainConnection(newHost);
+    const newMultichainConn = await createNewMultichainConnection(newHost);
+    delete app.multichain;
+    app.multichain = newMultichainConn;
+
     repeatCheckNodeLiveliness(app, newHost);
   } else {
     log.info({ host }, 'All good!');
