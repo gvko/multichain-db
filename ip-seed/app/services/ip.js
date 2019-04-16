@@ -67,28 +67,30 @@ async function getRandomNodeIp() {
 /**
  * Ping a node by its IP to check it's alive and kickin'. Expect minimum 2 replies.
  *
- * @param   {string}  ip  The node's IP to check for
+ * @param   {string}  ip          The node's IP to check for
+ * @param   {string}  reqSource   The source the request to check comes from
  * @returns {Promise} an object containing various info from the `ping` command. {boolean} "alive" is one of them
  */
-async function checkNodeIsLive(ip) {
-  log.debug(`Ping ${ip}`);
+async function checkNodeIsLive(ip, reqSource) {
+  log.debug(`Ping ${ip} (source: ${reqSource})`);
   return ping.promise.probe(ip, { min_reply: 2 });
 }
 
 /**
  * Check if node is alive. If not - remove IP from seed.
  *
- * @param ip
+ * @param {string}  ip          The IP of the host to check for
+ * @param {string}  reqSource   The source the request to check comes from
  * @returns {Promise<boolean>}
  */
-async function checkLivelinessAndRemove(ip) {
+async function checkLivelinessAndRemove(ip, reqSource) {
   if (ipList.length < 1) {
     log.warn('Seed is empty! Nothing to check liveliness for...');
 
     return false;
   }
 
-  const checkRes = await checkNodeIsLive(ip);
+  const checkRes = await checkNodeIsLive(ip, reqSource || 'internal');
 
   if (!checkRes.alive) {
     log.warn({ ip }, `Node is not live. Removing IP ${ip} from seed...`);
@@ -106,7 +108,7 @@ function repeatCheckNodesLiveliness() {
   repeat()
     .do(() => {
       for (const ip of ipList) {
-        checkLivelinessAndRemove(ip);
+        checkLivelinessAndRemove(ip, 'internal');
       }
     })
     .every(REPEAT_NODE_LIVE_CHECK_MILLISECONDS);
