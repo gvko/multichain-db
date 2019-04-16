@@ -28,7 +28,7 @@ async function init(app) {
 async function createNewMultichainConnection(host) {
   log.info({ host }, `Connecting the app to a new Multichain Node: ${host}`);
 
-  const multichain = Multichain({
+  const newMultichainConn = Multichain({
     user: process.env.MULTICHAIN_USER,
     pass: process.env.MULTICHAIN_PASS,
     host: host,
@@ -36,13 +36,13 @@ async function createNewMultichainConnection(host) {
   });
 
   try {
-    await multichain.getInfo();
+    await newMultichainConn.getInfo();
     log.info(`Successfully connected to ${host}`);
   } catch (err) {
     log.warn({ host, err }, 'Cloud NOT connect to Multichain Node!');
   }
 
-  return multichain;
+  return newMultichainConn;
 }
 
 /**
@@ -73,16 +73,14 @@ async function checkNodeIsLiveAndReconnect(app, host) {
   const nodeIsLive = await httpRequest({
     host: process.env.IP_SEED_HOST,
     port: process.env.IP_SEED_PORT,
-    endpoint: `/ip/check?ip=${host}`
+    endpoint: `/ip/check?ip=${host}&source=${process.env.APP_NAME}`
   });
 
   if (!nodeIsLive) {
     log.warn({ host }, `Multichain Node is down! IP ${host}`);
 
     const newHost = await getNodeHost();
-    const newMultichainConn = await createNewMultichainConnection(newHost);
-    delete app.multichain;
-    app.multichain = newMultichainConn;
+    app.multichain = await createNewMultichainConnection(newHost);
 
     repeatCheckNodeLiveliness(app, newHost);
   } else {

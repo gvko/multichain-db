@@ -39,7 +39,7 @@ global.log = log;
 app.listen(port, async () => {
   log.info(`Server started on port ${port} (container exposed: ${process.env.EXPOSED_PORT})`);
 
-  app.multichain = await multichainService.init(app);
+  await multichainService.init(app);
 });
 
 module.exports = app;
