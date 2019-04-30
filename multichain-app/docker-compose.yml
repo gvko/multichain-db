@@ -13,7 +13,7 @@ services:
       - EXPOSED_PORT=9011
       - IP_SEED_HOST=ip-seed
       - IP_SEED_PORT=3000
-      #      - MULTICHAIN_HOST=172.20.0.2
+#      - MULTICHAIN_HOST=172.20.0.2
       - MULTICHAIN_USER=multichainrpc
       - MULTICHAIN_PASS=asdf1234
       - MULTICHAIN_PORT=4001
@@ -34,7 +34,7 @@ services:
       - EXPOSED_PORT=9012
       - IP_SEED_HOST=ip-seed
       - IP_SEED_PORT=3000
-      #      - MULTICHAIN_HOST=172.20.0.3
+#      - MULTICHAIN_HOST=172.20.0.3
       - MULTICHAIN_USER=multichainrpc
       - MULTICHAIN_PASS=asdf1234
       - MULTICHAIN_PORT=4001
@@ -55,7 +55,7 @@ services:
       - EXPOSED_PORT=9013
       - IP_SEED_HOST=ip-seed
       - IP_SEED_PORT=3000
-      #      - MULTICHAIN_HOST=172.20.0.4
+#      - MULTICHAIN_HOST=172.20.0.5
       - MULTICHAIN_USER=multichainrpc
       - MULTICHAIN_PASS=asdf1234
       - MULTICHAIN_PORT=4001

@@ -22,16 +22,18 @@ async function init(app) {
 /**
  * Create a new Multichain Node connection.
  *
- * @param   {string}  host
+ * @param   {string}  newHost
  * @returns {Multichain}  multichain
  */
-async function createNewMultichainConnection(host) {
+async function createNewMultichainConnection(newHost) {
+  const host = process.env.MULTICHAIN_HOST ? process.env.MULTICHAIN_HOST : newHost;
+
   log.info({ host }, `Connecting the app to a new Multichain Node: ${host}`);
 
   const newMultichainConn = Multichain({
     user: process.env.MULTICHAIN_USER,
     pass: process.env.MULTICHAIN_PASS,
-    host: host,
+    host,
     port: process.env.MULTICHAIN_PORT
   });
 
