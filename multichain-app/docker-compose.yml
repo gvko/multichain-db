@@ -1,6 +1,6 @@
 version: '2'
 services:
-  app-1:
+  app1:
     build: .
     ports:
       - '9011:3000'
@@ -21,7 +21,7 @@ services:
     networks:
       - default
 
-  app-2:
+  app2:
     build: .
     ports:
       - '9012:3000'
@@ -42,7 +42,7 @@ services:
     networks:
       - default
 
-  app-3:
+  app3:
     build: .
     ports:
       - '9013:3000'
