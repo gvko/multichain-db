@@ -7,7 +7,7 @@ services:
       - 4001
     tty: true
     environment:
-      - BLOCKCHAIN_NAME=strv
+      - BLOCKCHAIN_NAME=gvko
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
@@ -25,7 +25,7 @@ services:
       - 4001
     tty: true
     environment:
-      - BLOCKCHAIN_NAME=strv
+      - BLOCKCHAIN_NAME=gvko
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
@@ -43,7 +43,7 @@ services:
       - 4001
     tty: true
     environment:
-      - BLOCKCHAIN_NAME=strv
+      - BLOCKCHAIN_NAME=gvko
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000
@@ -61,7 +61,7 @@ services:
       - 4001
     tty: true
     environment:
-      - BLOCKCHAIN_NAME=strv
+      - BLOCKCHAIN_NAME=gvko
       - PARENT_NODE_HOST=172.20.0.2
       - PARENT_NODE_PORT=4000
       - NODE_PORT=4000

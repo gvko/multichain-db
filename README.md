@@ -16,7 +16,7 @@ Once started, a Node.js app (or any other server app) will request the IP-seed f
 For better understanding, see below.
 
 ### System diagram <a name="system-diagram"></a>
-![System overview diagram](system_schema_strv_pres.png)
+![System overview diagram](system_schema.png)
 
 ### Start up (how-to) <a name="startup"></a>
 1. Navigate to the `ip-seed` dir and start the service: `npm start`
